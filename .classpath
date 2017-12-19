@@ -12,5 +12,7 @@
 	<classpathentry exported="true" kind="lib" path="D:/dev/jar/spring-asm-3.0.7.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/dev/jar/spring-framework-4.1.4.RELEASE-dist/spring-framework-4.1.4.RELEASE/libs/spring-aop-4.1.4.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/dev/jar/spring-framework-4.1.4.RELEASE-dist/spring-framework-4.1.4.RELEASE/libs/spring-jdbc-4.1.4.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/dev/jar/spring-framework-4.1.4.RELEASE-dist/spring-framework-4.1.4.RELEASE/libs/spring-test-4.1.4.RELEASE.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="src"/>
 </classpath>

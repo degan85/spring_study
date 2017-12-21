@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class NConnectionMaker implements ConnectionMaker {
 	public Connection makeConnection() throws ClassNotFoundException, SQLException { 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection c = DriverManager.getConnection("jdbc:mysql://localhost/spring_db","id","password");
+		Connection c = DriverManager.getConnection("jdbc:mysql://localhost/spring_db?autoReconnect=true&useSSL=false","id","password");
 	
 		return c;
 	}

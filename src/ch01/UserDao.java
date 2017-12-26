@@ -14,6 +14,7 @@ public class UserDao {
 	
 	private ConnectionMaker connectionMaker;
 	
+	// 수정자 메소드 set(id값)으로 해야 xml 설정에서 DI 됨
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}

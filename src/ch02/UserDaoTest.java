@@ -4,8 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
-
-import javax.sql.DataSource;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,13 +12,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ch01.User;
-import ch01.UserDao;
+import ch03.UserDao2;
+
 
 // 테스트 코드 수정
 @RunWith(SpringJUnit4ClassRunner.class) // 스프링의 테스트 컨텍스트 프레임워크의 JUnit 확장기능 지정
@@ -33,7 +32,7 @@ public class UserDaoTest {
 	
 	// 픽스처(fixture)
 	@Autowired	// 변수 타입과 일치하는 컨텍스트 내의 빈을 검색
-	private UserDao dao;	
+	private UserDao2 dao;	
 	private User user1;
 	private User user2;
 	private User user3;
@@ -48,11 +47,11 @@ public class UserDaoTest {
 		user3 = new User("id_3","이름3","spring3");
 		
 		// 테스트에서 UserDao가 사용할 DataSource 오브젝트를 직접 생성
-		DataSource dataSource = new SingleConnectionDataSource(
-				"jdbc:mysql://localhost/spring_db?autoReconnect=true&useSSL=false","root","inno100",true);
+//		DataSource dataSource = new SingleConnectionDataSource(
+//				"jdbc:mysql://localhost/spring_db?autoReconnect=true&useSSL=false","id","password",true);
 		
 		// 코드에 의한 수동 DI
-		dao.setDataSource(dataSource);
+//		dao.setDataSource(dataSource);
 	}
 	
 	@Test
@@ -100,8 +99,39 @@ public class UserDaoTest {
 		dao.get("unknown_id");
 	}
 	
+	@Test
+	public void getAll() throws ClassNotFoundException, SQLException {
+		dao.deleteAll();
+		
+		List<User> user0 = dao.getAll();
+		assertThat(user0.size(), is(0));
+		
+		dao.add(user1);
+		List<User> users1 = dao.getAll();
+		assertThat(users1.size(), is(1));
+		checkSameUser(user1, users1.get(0));
+		
+		dao.add(user2);
+		List<User> users2 = dao.getAll();
+		assertThat(users2.size(), is(2));
+		checkSameUser(user1, users2.get(0));
+		checkSameUser(user2, users2.get(1));
+		
+		dao.add(user3);
+		List<User> users3 = dao.getAll();
+		assertThat(users3.size(), is(3));
+		checkSameUser(user1, users3.get(0));
+		checkSameUser(user2, users3.get(1));
+		checkSameUser(user3, users3.get(2));
+	}
 //  또는 Run As jUnit Test 클릭	
 //	public static void main(String[] args) {
 //		JUnitCore.main("ch01.UserDaoTest");
 //	}
+
+	private void checkSameUser(User user1, User user2) {
+		assertThat(user1.getId(), is(user2.getId()));
+		assertThat(user1.getName(), is(user2.getName()));
+		assertThat(user1.getPassword(), is(user2.getPassword()));
+	}
 }
